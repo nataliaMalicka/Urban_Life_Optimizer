@@ -1,2 +1,3 @@
 # Ignore file with sensitive information
 .env.local
+node_modules/
