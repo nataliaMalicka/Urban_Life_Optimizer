@@ -12,6 +12,7 @@
   "type": "module",
   "dependencies": {
     "dotenv": "^17.2.3",
+    "@googlemaps/google-maps-services-js": "^3.4.2",
     "express": "^5.2.1",
     "openai": "^6.16.0"
   }
