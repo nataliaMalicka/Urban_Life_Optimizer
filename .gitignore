@@ -1,0 +1,2 @@
+# Ignore file with sensitive information
+.env.local
