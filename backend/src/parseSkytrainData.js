@@ -18,7 +18,7 @@ function loadSkytrainStations() {
 
 const stations = loadSkytrainStations();
 
-console.log("Loaded skytrain stations:", stations);
+// console.log("Loaded skytrain stations:", stations);
 
 module.exports = {
   getSkytrainStations: () => stations
