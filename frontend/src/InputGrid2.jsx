@@ -1,5 +1,5 @@
 import "./InputGrid.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const inputConfig = [
   {
@@ -41,7 +41,6 @@ const inputConfig = [
 
 function InputGrid({ setGridPage, formData, setFormData }) {
   const [showErrors, setShowErrors] = useState(false);
-  const [response, setResponse] = useState("");
 
   const handleChange = (id, value) => {
     setFormData((prev) => ({ ...prev, [id]: value, }));
@@ -66,7 +65,6 @@ function InputGrid({ setGridPage, formData, setFormData }) {
         <h5 className="inputSubTitle">Work & Lifestyle</h5>
         <div className="inputGrid">
           {inputConfig.map((field) => {
-            // Logic to determine if this box should turn red
             const fieldValue = formData[field.id] ? formData[field.id].toString().trim() : "";
             const isError = field.required && showErrors && fieldValue === "";
 
@@ -107,7 +105,6 @@ function InputGrid({ setGridPage, formData, setFormData }) {
         </div>
       </div>
 
-      {/* Moved outside inputContainer to utilize corner positioning */}
       <div className="actionContainer">
         <button className="back-btn" onClick={() => setGridPage(1)}>
           Back
@@ -116,13 +113,6 @@ function InputGrid({ setGridPage, formData, setFormData }) {
         <button className="next-btn" onClick={handleNext}>
           Next
         </button>
-
-        {response && (
-          <div className="response fade-in">
-            <h3>Recommendations:</h3>
-            <p style={{ whiteSpace: "pre-wrap" }}>{response}</p>
-          </div>
-        )}
       </div>
     </div>
   );
