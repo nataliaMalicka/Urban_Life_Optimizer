@@ -1,15 +1,15 @@
 {
-  "homePostalCode": "V3V",
-  "officePostalCode": "V6X",
-  "transportationMethod": "Car",
-  "commuteTime": "60",
+  "homePostalCode": "444",
+  "officePostalCode": "4",
+  "transportationMethod": "Bike",
+  "commuteTime": "4",
   "maxCommuteTimeTolerance": "",
-  "daysOfWork": "5",
-  "workHours": "8",
+  "daysOfWork": "2",
+  "workHours": "",
   "hasDog": "",
   "hasChildren": "",
   "roommatePreference": "",
-  "monthlyIncome": "6000",
-  "monthlyBudget": "5000",
-  "rentExpense": "2400"
+  "monthlyIncome": "",
+  "monthlyBudget": "",
+  "rentExpense": ""
 }

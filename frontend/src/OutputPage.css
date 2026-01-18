@@ -15,21 +15,26 @@
   line-height: 1.6;
 }
 
+#output-page-outer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  max-height: 100vh;
+}
+
 #output-page-container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  position: absolute;
   overflow-x: hidden;
   overflow-y: scroll;
   scrollbar-width: none;
-  left: 50vw;
-  transform: translateX(-50%);
   width: 1100px;
-  height: 525px;
+  height: auto;
   margin-top: 60px;
-  margin-bottom: 80px;
   padding: 50px;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 50px;
@@ -101,12 +106,9 @@ ul.output-page-plain-text {
 }
 
 .external-button-container {
-  position: fixed; 
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
   width: auto;
   display: flex;
   justify-content: center;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
