@@ -1,0 +1,31 @@
+.output-page-header-text {
+  font-size: 30px;
+  color: rgb(100, 100, 100);
+  text-shadow: 1px 1px 2px rgb(50, 50, 50);
+}
+
+.output-page-plain-text {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  color: black;
+}
+
+#output-page-container {
+  position: absolute;
+  left: 50vw;
+  transform: translateX(-50%);
+  width: 1100px;
+  height: 600px;
+  margin-top: 60px;
+  padding: 50px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  text-align: center;
+}
+
+#output-page-recommended-title {
+  margin-top: 0;
+}
+

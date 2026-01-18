@@ -6,16 +6,6 @@ body {
     min-height: 100vh;
 }
 
-#input-page-title {
-  font-size: 55px;
-  color: white;
-  margin: 10px 0 10px 0;
-}
-
-#input-page-horizontal-line {
-  width: 650px;
-}
-
 .headerContainer {
   display: flex;
   flex-direction: column;
