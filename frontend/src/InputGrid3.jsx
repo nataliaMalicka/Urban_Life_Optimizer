@@ -75,7 +75,12 @@ function InputGrid3({ setGridPage, formData, setFormData }) {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
-					prompt: `You are an urban life optimizer for Vancouver, BC. Analyze this user's situation using the provided data and return a recommended lifestyle plan.
+					prompt: `You are a professional urban lifestyle optimizer for Vancouver, BC. Analyze this user's situation using the provided data and return a provide a friendly, clear, and actionable plan for the user.
+
+STRICT GUIDELINES:
+- Never mention "JSON," "data files," or "provided data."
+- Speak directly to the user (use "You" instead of "The user").
+- Act as if you naturally know the current rent prices, transit routes, and park locations in Vancouver.
 
 USE THE PROVIDED DATA:
 - rentData: Match postal codes to find neighborhoods, average/median rent, vacancy rates
