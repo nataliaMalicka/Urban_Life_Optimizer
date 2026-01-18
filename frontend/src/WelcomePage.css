@@ -1,42 +1,56 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+#welcome-page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 800px;
+  gap: 20px
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+#welcome-page-greeting {
+  font-size: 50px;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 5px 5px 5px black;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#welcome-page-title {
+  font-size: 70px;
+  font-weight: 500;
+  margin: 0;
+  text-shadow: 5px 5px 5px black;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#welcome-page-horizontal-line {
+  width: 100%;
+  height: 2px;
+  background-color: white;
 }
 
-.card {
-  padding: 2em;
+#welcome-page-div-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  gap: 20px;
+  width: 280px;
+  height: 90px;
+  margin-top: 50px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  transition: background-color 0.3s ease;
 }
 
-.read-the-docs {
-  color: #888;
+#welcome-page-div-button:hover {
+  background-color: rgba(200, 200, 200, 0.7);
+}
+
+#welcome-page-div-button-text {
+  color: black;
+  font-size: 30px;
+}
+
+#welcome-page-div-button-img {
+  height: 50%;
 }
