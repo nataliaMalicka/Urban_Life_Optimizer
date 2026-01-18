@@ -32,3 +32,63 @@
   width: 350px;
   height: 25px;
 }
+
+.actionContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.submit-btn {
+  padding: 12px 24px;
+  cursor: pointer;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.submit-btn:disabled {
+  background-color: #a5a2d9;
+  cursor: not-allowed;
+}
+
+/* Progress Bar Styles */
+.progressWrapper {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.progressBarContainer {
+  width: 100%;
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: #4f46e5;
+  transition: width 0.3s ease-in-out;
+}
+
+.loadingText {
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
