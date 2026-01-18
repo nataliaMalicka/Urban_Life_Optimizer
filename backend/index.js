@@ -1,14 +1,14 @@
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env.local' });
 
-console.log('API Key loaded:', process.env.OPENROUTER_API_KEY ? 'yes' : 'no');
-
 import express from 'express';
+import cors from 'cors';
 import { askGemini } from './services/gemini.js';
 
 const app = express();
 const PORT = 3000;
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (req, res) => {
