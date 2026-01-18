@@ -134,8 +134,8 @@
 .next-btn {
   font-family: 'Noto Serif';
   position: absolute;
-  bottom: 10vh;
-  right: 8vw;
+  top: 3vh;
+  right: 3vw;
   padding: 24px 48px;
   cursor: pointer;
   background-color: #002d03;
@@ -150,8 +150,8 @@
 .back-btn {
   font-family: 'Noto Serif';
   position: absolute;
-  bottom: 10vh;
-  left: 8vw;
+  top: 3vh;
+  left: 3vw;
   padding: 24px 48px;
   cursor: pointer;
   background-color: #002d03;
