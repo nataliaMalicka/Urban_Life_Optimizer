@@ -21,7 +21,7 @@
 }
 
 .inputLabel {
-  font-size: 20px;
+  font-size: 24px;
   color: white;
   text-shadow: 2px 2px 2px rgb(50, 50, 50);
 }
@@ -48,7 +48,7 @@
 }
 
 .submit-btn {
-  padding: 12px 24px;
+  padding: 36px 72px;
   cursor: pointer;
   background-color: #002d03;
   color: white;
@@ -120,16 +120,24 @@
 }
 
 .next-btn {
-
+  padding: 24px 48px;
+  cursor: pointer;
+  background-color: #002d03;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 
 .back-btn {
-  padding: 10px 20px;
-  background-color: #666;
+  padding: 24px 48px;
+  cursor: pointer;
+  background-color: #002d03;
   color: white;
   border: none;
-  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 .back-btn:hover {
