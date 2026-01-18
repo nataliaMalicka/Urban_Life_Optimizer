@@ -26,8 +26,9 @@
   left: 50vw;
   transform: translateX(-50%);
   width: 1100px;
-  height: 600px;
+  height: 525px;
   margin-top: 60px;
+  margin-bottom: 80px;
   padding: 50px;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 50px;
@@ -77,7 +78,7 @@ ul.output-page-plain-text {
 .new-search-btn {
   background-color: #002d03;
   color: white;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
   padding: 15px 40px;
   border: none;
@@ -95,4 +96,15 @@ ul.output-page-plain-text {
 
 .new-search-btn:active {
   transform: translateY(0);
+}
+
+.external-button-container {
+  position: fixed; 
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: auto;
+  display: flex;
+  justify-content: center;
 }

@@ -90,13 +90,13 @@ export default function OutputPage() {
       <li key={index}>{item}</li>
     ))}
   </ul>
+</div>
 
-  <div className="button-container">
+  <div className="external-button-container">
     <button className="new-search-btn" onClick={handleStartOver}>
       Start New Search
     </button>
   </div>
-</div>
     </>
   )
 }
