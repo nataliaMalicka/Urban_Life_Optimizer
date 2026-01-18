@@ -1,0 +1,32 @@
+.inputContainer {
+  margin-top: 80px;
+  height: 350px;
+  width: 100wh;
+  overflow-y: auto;
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 50px 200px;                        
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 6px;
+}
+
+.inputLabel {
+  font-size: 20px;
+  color: white;
+}
+
+.inputGroup input {
+  padding: 8px;
+  background-color: #d9d9d9;
+  border: 1px solid #ccc;
+  width: 350px;
+  height: 25px;
+}
