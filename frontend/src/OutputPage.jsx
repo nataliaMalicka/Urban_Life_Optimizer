@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Background from './assets/background.png'
 import HeaderComponent from './HeaderComponent'
 import './OutputPage.css'
+import { useLocation } from 'react-router-dom'
 
 export default function OutputPage() {
+  const location = useLocation();
+
   const [result, setResult] = useState({
     living: "Placeholder living",
     commute: "Placeholder commute",
@@ -11,6 +14,15 @@ export default function OutputPage() {
     car: "Placeholder car",
     explanation: "Placeholder explanation"
   })
+
+  useEffect(() => {
+    const data = location.state;
+    setResult(prev => ({
+      ...prev,
+      explanation: data
+    }))
+  }, []);
+
   return (
     <>
       <img src={Background} className='background-image' />

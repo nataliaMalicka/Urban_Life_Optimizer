@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./InputGrid.css";
 import { useState, useEffect } from "react";
 
@@ -26,7 +27,7 @@ function InputGrid3({ setGridPage, formData, setFormData }) {
 	const [showErrors, setShowErrors] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [progress, setProgress] = useState(0);
-	const [response, setResponse] = useState("");
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		let interval;
@@ -64,7 +65,6 @@ function InputGrid3({ setGridPage, formData, setFormData }) {
 
 	const handleSubmit = async () => {
 		setLoading(true);
-		setResponse("");
 		try {
 			await fetch('http://localhost:3000/save-data', {
 				method: 'POST',
@@ -116,78 +116,83 @@ Be concise and specific. Use actual names, numbers, and addresses from the data.
 
 			const data = await res.json();
 			setProgress(100);
-			setResponse(data.response);
+			navigate('/OutputPage', { state: data.response });
 		} catch (error) {
 			console.error(error);
-			setResponse("An error occurred. Please try again.");
 		} finally {
 			setTimeout(() => setLoading(false), 500);
 		}
 	};
 
 	return (
-        <div>
-            <div className="inputContainer">
-                <h5 className="inputSubTitle">Financials</h5>
-                <div className="inputGrid">
-                    {inputConfig.map((field) => {
-                        const fieldValue = formData[field.id] ? formData[field.id].toString().trim() : "";
-                        const isError = field.required && showErrors && fieldValue === "";
+		<div>
+			<div className="inputContainer">
+				<h5 className="inputSubTitle">Work & Lifestyle</h5>
+				<div className="inputGrid">
+					{inputConfig.map((field) => (
+						<div key={field.id} className="inputGroup">
+							<label className="inputLabel">
+								{field.required && <span className="required">* </span>}
+								{field.label}
+							</label>
 
-                        return (
-                            <div key={field.id} className="inputGroup">
-                                <label className="inputLabel">
-                                    {field.required && <span className="required">* </span>}
-                                    {field.label}
-                                </label>
-                                <input
-                                    className={`inputStyle ${isError ? "input-error" : ""}`}
-                                    type={field.type}
-                                    placeholder={field.placeholder}
-                                    value={formData[field.id] || ""}
-                                    onChange={(e) => handleChange(field.id, e.target.value)} 
-                                />
-                            </div>
-                        );
-                    })}
-                </div>
+							{field.type === "select" ? (
+								<select
+									className="inputStyle"
+									value={formData[field.id]}
+									onChange={(e) => handleChange(field.id, e.target.value)}
+								>
+									<option value="" disabled>
+										Select an option
+									</option>
+									{field.options.map((option) => (
+										<option key={option} value={option}>
+											{option}
+										</option>
+									))}
+								</select>
+							) : (
+								<input
+									className="inputStyle"
+									type={field.type}
+									placeholder={field.placeholder}
+									value={formData[field.id]}
+									onChange={(e) => handleChange(field.id, e.target.value)} />
+							)}
+						</div>
+					))}
+				</div>
+				<div className="buttonGroup">
+					<button
+						className="back-btn"
+						onClick={() => setGridPage(2)}
+						disabled={loading}
+					>
+						Back
+					</button>
+					<button
+						className="submit-btn"
+						onClick={handleSubmit}
+						disabled={loading}
+					>
+						{loading ? "Thinking..." : "Get Recommendations"}
+					</button>
+				</div>
 
-                {loading && (
-                    <div className="progressWrapper">
-                        <div className="progressBarContainer">
-                            <div className="progressBarFill" style={{ width: `${progress}%` }}></div>
-                        </div>
-                        <p className="loadingText">Analyzing your urban lifestyle...</p>
-                    </div>
-                )}
-
-                {response && !loading && (
-                    <div className="response fade-in">
-                        <h3>Recommendations:</h3>
-                        <p style={{ whiteSpace: "pre-wrap" }}>{response}</p>
-                    </div>
-                )}
-            </div>
-
-            <div className="actionContainer">
-                <button
-                    className="back-btn"
-                    onClick={() => setGridPage(2)}
-                    disabled={loading}
-                >
-                    Back
-                </button>
-                
-                <button
-                    className="submit-btn"
-                    onClick={handleSubmit}
-                    disabled={loading}
-                >
-                    {loading ? "Thinking..." : "Get Recommendations"}
-                </button>
-            </div>
-        </div>
-    );
+				{loading && (
+					<div className="progressWrapper">
+						<div className="progressBarContainer">
+							<div
+								className="progressBarFill"
+								style={{ width: `${progress}%` }}
+							></div>
+						</div>
+						<p className="loadingText">Analyzing your urban lifestyle...</p>
+					</div>
+				)}
+			</div>
+		</div>
+	);
 }
 
 export default InputGrid3;
