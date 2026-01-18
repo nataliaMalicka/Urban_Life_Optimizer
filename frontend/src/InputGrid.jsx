@@ -1,5 +1,5 @@
 import "./InputGrid.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const inputConfig = [
   {
@@ -85,27 +85,43 @@ const inputConfig = [
 function InputGrid() {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [response, setResponse] = useState("");
 
+  useEffect(() => {
+    let interval;
+    if (loading) {
+      setProgress(0);
+      interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) return prev;
+          return prev + 5;
+        });
+      }, 200);
+    } else {
+      setProgress(0);
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [loading]);
+
   const handleChange = (id, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [id]: value, }));
   };
 
   const handleSubmit = async () => {
     setLoading(true);
+    setResponse("");
     try {
-      const result = await askGemini(
-        "Analyze this user's urban life situation and give recommendations",
-        formData
-      );
+      const result = await askGemini("Analyze this user's urban life situation and give recommendations", formData);
+      setProgress(100);
       setResponse(result);
     } catch (error) {
       console.error(error);
+      setResponse("An error occurred. Please try again.");
+    } finally {
+    setTimeout(() => setLoading(false), 500);
     }
-    setLoading(false);
   };
 
   return (
@@ -142,11 +158,34 @@ function InputGrid() {
           ))}
         </div>
       </div>
-      <div>
-        <button onClick={handleSubmit} disabled={loading}>
-          {loading ? "Loading..." : "Get Recommendations"}
+
+      <div className="actionContainer">
+        <button 
+          className="submit-btn" 
+          onClick={handleSubmit} 
+          disabled={loading}
+        >
+          {loading ? "Thinking..." : "Get Recommendations"}
         </button>
-        {response && <div className="response">{response}</div>}
+
+        {loading && (
+          <div className="progressWrapper">
+            <div className="progressBarContainer">
+              <div 
+                className="progressBarFill" 
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <p className="loadingText">Analyzing your urban lifestyle...</p>
+          </div>
+        )}
+
+        {response && !loading && (
+          <div className="response fade-in">
+            <h3>Recommendations:</h3>
+            <p>{response}</p>
+          </div>
+        )}
       </div>
     </div>
   );
