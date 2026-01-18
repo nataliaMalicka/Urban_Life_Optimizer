@@ -3,24 +3,24 @@ import "./InputGrid.css";
 import { useState, useEffect } from "react";
 
 const inputConfig = [
-	{
-		id: "monthlyIncome",
-		label: "Monthly income",
-		type: "text",
-		placeholder: "Enter a number",
-	},
-	{
-		id: "monthlyBudget",
-		label: "Monthly budget",
-		type: "text",
-		placeholder: "Enter a number",
-	},
-	{
-		id: "rentExpense",
-		label: "Ideal monthly expense on rent",
-		type: "text",
-		placeholder: "Enter a number",
-	},
+  {
+    id: "monthlyIncome",
+    label: "Monthly income",
+    type: "text",
+    placeholder: "Enter a number (dollars)",
+  },
+  {
+    id: "monthlyBudget",
+    label: "Monthly budget",
+    type: "text",
+    placeholder: "Enter a number (dollars)",
+  },
+  {
+    id: "rentExpense",
+    label: "Ideal monthly expense on rent",
+    type: "text",
+    placeholder: "Enter a number (dollars)",
+  },
 ];
 
 function InputGrid3({ setGridPage, formData, setFormData }) {
