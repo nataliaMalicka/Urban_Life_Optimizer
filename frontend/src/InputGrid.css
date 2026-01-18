@@ -109,3 +109,23 @@
   background-position: right 10px center;
 }
 
+.required {
+    color: red;
+}
+
+.next-btn {
+
+}
+
+
+.back-btn {
+  padding: 10px 20px;
+  background-color: #666;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #555;
+}
