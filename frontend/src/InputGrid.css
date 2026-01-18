@@ -109,3 +109,20 @@
   background-position: right 10px center;
 }
 
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.back-btn {
+  padding: 10px 20px;
+  background-color: #666;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background-color: #555;
+}
