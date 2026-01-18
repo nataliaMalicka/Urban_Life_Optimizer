@@ -7,36 +7,28 @@ const inputConfig = [
     label: "Home postal code",
     type: "text",
     placeholder: "Enter a text",
+    required: true,
   },
   {
     id: "officeNeighbourhood",
     label: "Office postal code",
     type: "text",
     placeholder: "Enter a text",
-  },
-  {
-    id: "daysOfWork",
-    label: "Days per week in-person",
-    type: "select",
-    options: ["1", "2", "3", "4", "5", "6", "7"],
+    required: true,
   },
   {
     id: "transportationMethod",
     label: "Transportation method",
     type: "select",
     options: ["Transit", "Car", "Bike", "Walk"],
-  },
-  {
-    id: "monthlyIncome",
-    label: "Monthly income",
-    type: "text",
-    placeholder: "Enter a number",
+    required: true,
   },
   {
     id: "commuteTime",
     label: "Commute time",
     type: "text",
     placeholder: "Enter a number",
+    required: true,
   },
   {
     id: "commuteTolerance",
@@ -44,45 +36,9 @@ const inputConfig = [
     type: "text",
     placeholder: "Enter a number",
   },
-  {
-    id: "workHours",
-    label: "Daily work hours",
-    type: "select",
-    options: Array.from({ length: 20 }, (_, i) => i + 1),
-  },
-  {
-    id: "hasDog",
-    label: "Do you have a dog?",
-    type: "select",
-    options: ["Yes", "No"],
-  },
-  {
-    id: "hasChildren",
-    label: "Do you have any children?",
-    type: "select",
-    options: ["Yes", "No"],
-  },
-  {
-    id: "roommatePreference",
-    label: "Do you have a preference for roommates?",
-    type: "select",
-    options: ["Yes", "No"],
-  },
-  {
-    id: "monthlyBudget",
-    label: "Monthly budget",
-    type: "text",
-    placeholder: "Enter a number",
-  },
-  {
-    id: "rentExpense",
-    label: "Ideal monthly expense on rent",
-    type: "text",
-    placeholder: "Enter a number",
-  },
 ];
 
-function InputGrid() {
+function InputGrid({ setGridPage }) {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -106,26 +62,26 @@ function InputGrid() {
   }, [loading]);
 
   const handleChange = (id, value) => {
-    setFormData((prev) => ({ ...prev, [id]: value, }));
+    setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleSubmit = async () => {
-  setLoading(true);
-  setResponse("");
-  try {
-    // Save data to JSON file
-    await fetch('http://localhost:3000/save-data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
+    setLoading(true);
+    setResponse("");
+    try {
+      // Save data to JSON file
+      await fetch("http://localhost:3000/save-data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    // Ask Gemini via backend
-    const res = await fetch('http://localhost:3000/ask', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        prompt: `You are an urban life optimizer for Vancouver, BC. Analyze this user's situation using the provided data and return a recommended lifestyle plan.
+      // Ask Gemini via backend
+      const res = await fetch("http://localhost:3000/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: `You are an urban life optimizer for Vancouver, BC. Analyze this user's situation using the provided data and return a recommended lifestyle plan.
 
 USE THE PROVIDED DATA:
 - rentData: Match postal codes to find neighborhoods, average/median rent, vacancy rates
@@ -148,8 +104,16 @@ RESPOND IN THIS EXACT FORMAT:
 [2-3 sentences explaining the recommendation using specific data points - actual rent prices, station names, distances]
 
 **Nearby Amenities:**
-${formData.hasDog?.toLowerCase() === 'yes' ? '- Dog parks: [List 2-3 specific parks/areas from dogData with neighborhoods]' : ''}
-${parseInt(formData.childrenNumber) > 0 ? '- Schools: [List 2-3 specific schools from schoolsData with names and addresses]' : ''}
+${
+  formData.hasDog?.toLowerCase() === "yes"
+    ? "- Dog parks: [List 2-3 specific parks/areas from dogData with neighborhoods]"
+    : ""
+}
+${
+  parseInt(formData.childrenNumber) > 0
+    ? "- Schools: [List 2-3 specific schools from schoolsData with names and addresses]"
+    : ""
+}
 - Transit: [List 2-3 nearest SkyTrain stations from skyTrainData]
 
 **Top 3 Action Items:**
@@ -158,28 +122,31 @@ ${parseInt(formData.childrenNumber) > 0 ? '- Schools: [List 2-3 specific schools
 3. [Specific actionable step]
 
 Be concise and specific. Use actual names, numbers, and addresses from the data.`,
-        context: formData,
-      }),
-    });
-    
-    const data = await res.json();
-    setProgress(100);
-    setResponse(data.response);
-  } catch (error) {
-    console.error(error);
-    setResponse("An error occurred. Please try again.");
-  } finally {
-    setTimeout(() => setLoading(false), 500);
-  }
-};
-  
+          context: formData,
+        }),
+      });
+
+      const data = await res.json();
+      setProgress(100);
+      setResponse(data.response);
+    } catch (error) {
+      console.error(error);
+      setResponse("An error occurred. Please try again.");
+    } finally {
+      setTimeout(() => setLoading(false), 500);
+    }
+  };
+
   return (
     <div>
       <div className="inputContainer">
         <div className="inputGrid">
           {inputConfig.map((field) => (
             <div key={field.id} className="inputGroup">
-              <label className="inputLabel">{field.label}</label>
+              <label className="inputLabel">
+                {field.required && <span className="required">* </span>}
+                {field.label}
+              </label>
 
               {field.type === "select" ? (
                 <select
@@ -209,19 +176,22 @@ Be concise and specific. Use actual names, numbers, and addresses from the data.
       </div>
 
       <div className="actionContainer">
-        <button 
-          className="submit-btn" 
-          onClick={handleSubmit} 
+        <button className="next-btn" onClick={() => setGridPage(2)}>
+          Next
+        </button>
+        {/* <button
+          className="submit-btn"
+          onClick={handleSubmit}
           disabled={loading}
         >
           {loading ? "Thinking..." : "Get Recommendations"}
-        </button>
+        </button> */}
 
-        {loading && (
+        {/* {loading && (
           <div className="progressWrapper">
             <div className="progressBarContainer">
-              <div 
-                className="progressBarFill" 
+              <div
+                className="progressBarFill"
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
@@ -234,7 +204,7 @@ Be concise and specific. Use actual names, numbers, and addresses from the data.
             <h3>Recommendations:</h3>
             <p>{response}</p>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
