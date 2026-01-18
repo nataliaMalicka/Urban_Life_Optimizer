@@ -46,8 +46,11 @@ function InputGrid3({ setGridPage, formData, setFormData }) {
 	}, [loading]);
 
 	const handleChange = (id, value) => {
-		setFormData((prev) => ({ ...prev, [id]: value }));
-	};
+    const numericValue = value.replace(/\D/g, "");
+    const finalValue = numericValue.replace(/^0+/, "") || (numericValue === "0" ? "0" : "");
+
+    setFormData((prev) => ({ ...prev, [id]: finalValue }));
+};
 
 	const handleNext = () => {
 		const requiredFields = inputConfig.filter(field => field.required);
