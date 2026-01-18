@@ -1,5 +1,4 @@
 import "./InputGrid.css";
-import { useState, useEffect } from "react";
 
 const inputConfig = [
   {
@@ -39,26 +38,6 @@ const inputConfig = [
 ];
 
 function InputGrid({ setGridPage, formData, setFormData }) {
-  const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    let interval;
-    if (loading) {
-      setProgress(0);
-      interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 90) return prev;
-          return prev + 5;
-        });
-      }, 200);
-    } else {
-      setProgress(0);
-      clearInterval(interval);
-    }
-    return () => clearInterval(interval);
-  }, [loading]);
-
   const handleChange = (id, value) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
@@ -66,6 +45,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
   return (
     <div>
       <div className="inputContainer">
+        <h5 className="inputSubTitle">Location & Commute</h5>
         <div className="inputGrid">
           {inputConfig.map((field) => (
             <div key={field.id} className="inputGroup">
@@ -100,38 +80,9 @@ function InputGrid({ setGridPage, formData, setFormData }) {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="actionContainer">
         <button className="next-btn" onClick={() => setGridPage(2)}>
           Next
         </button>
-        {/* <button
-          className="submit-btn"
-          onClick={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? "Thinking..." : "Get Recommendations"}
-        </button> */}
-
-        {/* {loading && (
-          <div className="progressWrapper">
-            <div className="progressBarContainer">
-              <div
-                className="progressBarFill"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-            <p className="loadingText">Analyzing your urban lifestyle...</p>
-          </div>
-        )}
-
-        {response && !loading && (
-          <div className="response fade-in">
-            <h3>Recommendations:</h3>
-            <p>{response}</p>
-          </div>
-        )} */}
       </div>
     </div>
   );

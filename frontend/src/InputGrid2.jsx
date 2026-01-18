@@ -48,6 +48,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
   
   return (
       <div className="inputContainer">
+        <h5 className="inputSubTitle">Work & Lifestyle</h5>
         <div className="inputGrid">
           {inputConfig.map((field) => (
             <div key={field.id} className="inputGroup">

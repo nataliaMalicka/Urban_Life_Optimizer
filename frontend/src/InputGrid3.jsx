@@ -115,6 +115,7 @@ Be concise and specific. Use actual names, numbers, and addresses from the data.
 	return (
 		<div>
 			<div className="inputContainer">
+				<h5 className="inputSubTitle">Work & Lifestyle</h5>
 				<div className="inputGrid">
 					{inputConfig.map((field) => (
 						<div key={field.id} className="inputGroup">
@@ -149,9 +150,6 @@ Be concise and specific. Use actual names, numbers, and addresses from the data.
 						</div>
 					))}
 				</div>
-			</div>
-
-			<div className="actionContainer">
 				<div className="buttonGroup">
 					<button
 						className="back-btn"
