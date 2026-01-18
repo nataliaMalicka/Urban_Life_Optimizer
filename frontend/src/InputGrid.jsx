@@ -18,13 +18,13 @@ const inputConfig = [
     id: "daysOfWork",
     label: "Days per week in-person",
     type: "select",
-    placeholder: "Select from dropdown",
+    options: ["1", "2", "3", "4", "5", "6", "7"],
   },
   {
     id: "transportationMethod",
     label: "Transportation method",
-    type: "text",
-    placeholder: "Select from dropdown",
+    type: "select",
+    options: ["Transit", "Car", "Bike", "Walk"],
   },
   {
     id: "monthlyIncome",
@@ -47,20 +47,26 @@ const inputConfig = [
   {
     id: "workHours",
     label: "Daily work hours",
-    type: "text",
-    placeholder: "Select from dropdown",
+    type: "select",
+    options: Array.from({ length: 20 }, (_, i) => i + 1),
   },
   {
     id: "hasDog",
     label: "Do you have a dog?",
-    type: "text",
-    placeholder: "Select from dropdown",
+    type: "select",
+    options: ["Yes", "No"],
+  },
+  {
+    id: "childrenNumber",
+    label: "How many children do you have?",
+    type: "select",
+    options: ["0", "1", "2", "3", "4", "5"],
   },
   {
     id: "roommatePreference",
     label: "Preference for the number of roommates",
-    type: "text",
-    placeholder: "Select from dropdown",
+    type: "select",
+    options: ["0", "1", "2", "3", "4", "5", "6", "7"],
   },
   {
     id: "monthlyBudget",
@@ -91,7 +97,10 @@ function InputGrid() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const result = await askGemini("Analyze this user's urban life situation and give recommendations", formData);
+      const result = await askGemini(
+        "Analyze this user's urban life situation and give recommendations",
+        formData
+      );
       setResponse(result);
     } catch (error) {
       console.error(error);
@@ -106,11 +115,29 @@ function InputGrid() {
           {inputConfig.map((field) => (
             <div key={field.id} className="inputGroup">
               <label className="inputLabel">{field.label}</label>
-              <input
-                type={field.type}
-                placeholder={field.placeholder}
-                onChange={(e) => handleChange(field.id, e.target.value)}
-              />
+
+              {field.type === "select" ? (
+                <select
+                  className="inputSelect"
+                  defaultValue=""
+                  onChange={(e) => handleChange(field.id, e.target.value)}
+                >
+                  <option value="" disabled>
+                    Select an option
+                  </option>
+                  {field.options.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  onChange={(e) => handleChange(field.id, e.target.value)}
+                />
+              )}
             </div>
           ))}
         </div>
