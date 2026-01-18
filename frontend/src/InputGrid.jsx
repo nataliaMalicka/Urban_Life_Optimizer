@@ -78,7 +78,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
   }
 
     setShowErrors(false);
-    setGridPage(current => current + 1); 
+    setGridPage(current => current + 1);
   };
 
   const handleGoHome = () => {
@@ -93,7 +93,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
           {inputConfig.map((field) => {
             const fieldValue = formData[field.id] ? formData[field.id].toString().trim() : "";
             const isError = field.required && showErrors && fieldValue === "";
-            
+
             return (
               <div key={field.id} className="inputGroup">
                 <label className="inputLabel">
@@ -122,7 +122,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
                     type={field.type}
                     placeholder={field.placeholder}
                     value={formData[field.id] || ""}
-                    onChange={(e) => handleChange(field.id, e.target.value)} 
+                    onChange={(e) => handleChange(field.id, e.target.value)}
                   />
                 )}
               </div>

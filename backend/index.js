@@ -28,6 +28,25 @@ const skyTrainData = JSON.parse(
     fs.readFileSync(path.join(__dirname, 'data/skytrain-stations.json'), 'utf-8')
 );
 
+function getMatchingAreas(cmhcNeighbourhood) {
+  const key = cmhcNeighbourhood?.toLowerCase();
+  return neighbourhoodMapping[key] || [];
+}
+
+const neighbourhoodMapping = {
+  "west end/stanley park": ["west end", "downtown"],
+  "downtown": ["downtown"],
+  "mount pleasant/renfrew heights": ["mount pleasant", "renfrew-collingwood", "kensington-cedar cottage"],
+  "east hastings": ["hastings-sunrise", "grandview-woodland", "strathcona"],
+  "southeast vancouver": ["victoria-fraserview", "killarney", "renfrew-collingwood"],
+  "marpole": ["marpole"],
+  "south granville/oak": ["fairview", "south cambie", "oakridge", "shaughnessy", "riley park"],
+  "kitsilano/point grey": ["kitsilano", "west point grey", "fairview"],
+  "westside/kerrisdale": ["kerrisdale", "arbutus ridge", "dunbar-southlands", "oakridge"],
+  "university endowment lands": ["west point grey"],
+  "english bay": ["west end", "downtown"]
+};
+
 console.log('Data loaded:', {
   rentData: rentData.length + ' entries',
   schoolsData: schoolsData.length + ' entries',
@@ -66,17 +85,20 @@ app.post('/ask', async (req, res) => {
 
   try {
     const { prompt, context } = req.body;
-    const userPostalCode = context.homeNeighbourhood?.toUpperCase();
+    const userPostalCode = context.homePostalCode?.toUpperCase();
 
     // Filter rent data to match user's postal code
     const filteredRentData = rentData.filter(r =>
-        r.postal_code?.toUpperCase() === userPostalCode
+        r.postal_code?.toUpperCase().startsWith(userPostalCode)
     );
 
-    // Filter skytrain stations by neighbourhood (if geo_local_area matches)
-    const userNeighbourhood = filteredRentData[0]?.neighborhood;
+    // Get matching geo_local_areas from the CMHC neighbourhood
+    const cmhcNeighbourhood = filteredRentData[0]?.neighborhood;
+    const matchingAreas = getMatchingAreas(cmhcNeighbourhood);
+
+    // Filter skytrain stations by matching areas
     const filteredSkyTrainData = skyTrainData.filter(s =>
-        s.geo_local_area === userNeighbourhood
+        matchingAreas.includes(s.geo_local_area?.toLowerCase())
     );
 
     const enrichedContext = {
@@ -85,20 +107,22 @@ app.post('/ask', async (req, res) => {
       skyTrainData: filteredSkyTrainData,
     };
 
-    // Filter schools by neighbourhood
-    if (parseInt(context.childrenNumber) > 0) {
+    // Filter schools by matching areas
+    if (context.hasChildren?.toLowerCase() === 'yes') {
       enrichedContext.schoolsData = schoolsData.filter(s =>
-          s.geo_local_area === userNeighbourhood
+          matchingAreas.includes(s.geo_local_area?.toLowerCase())
       );
     }
 
-    // Filter dog parks by neighbourhood
+    // Filter dog parks by matching areas
     if (context.hasDog?.toLowerCase() === 'yes') {
       enrichedContext.dogData = dogData.filter(d =>
-          d.geo_local_area === userNeighbourhood
+          matchingAreas.includes(d.geo_local_area?.toLowerCase())
       );
     }
 
+    console.log('CMHC neighbourhood:', cmhcNeighbourhood);
+    console.log('Matching areas:', matchingAreas);
     console.log('Filtered data:', {
       rentData: enrichedContext.rentData?.length || 0,
       skyTrainData: enrichedContext.skyTrainData?.length || 0,
