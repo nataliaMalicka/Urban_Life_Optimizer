@@ -26,7 +26,7 @@
 }
 
 .inputLabel {
-  font-size: 20px;
+  font-size: 24px;
   color: white;
   text-shadow: 2px 2px 2px rgb(50, 50, 50);
 }
@@ -53,13 +53,14 @@
 }
 
 .submit-btn {
-  padding: 12px 24px;
+  padding: 24px 48px;
   cursor: pointer;
   background-color: #002d03;
   color: white;
   border: none;
   border-radius: 8px;
   font-weight: bold;
+  font-size: 20px;
 }
 
 .submit-btn:disabled {
@@ -125,12 +126,35 @@
     color: red;
 }
 
-.back-btn {
-  padding: 10px 20px;
-  background-color: #666;
+.next-btn {
+  position: fixed;
+  bottom: 150px;
+  right: 300px;
+
+  padding: 24px 48px;
+  cursor: pointer;
+  background-color: #002d03;
   color: white;
   border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+
+.back-btn {
+  position: fixed;
+  bottom: 150px;
+  left: 300px;
+
+  padding: 24px 48px;
   cursor: pointer;
+  background-color: #002d03;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .back-btn:hover {
