@@ -57,16 +57,16 @@ const inputConfig = [
     options: ["Yes", "No"],
   },
   {
-    id: "childrenNumber",
-    label: "How many children do you have?",
+    id: "hasChildren",
+    label: "Do you have any children?",
     type: "select",
-    options: ["0", "1", "2", "3", "4", "5"],
+    options: ["Yes", "No"],
   },
   {
     id: "roommatePreference",
-    label: "Preference for the number of roommates",
+    label: "Do you have a preference for roommates?",
     type: "select",
-    options: ["0", "1", "2", "3", "4", "5", "6", "7"],
+    options: ["Yes", "No"],
   },
   {
     id: "monthlyBudget",
