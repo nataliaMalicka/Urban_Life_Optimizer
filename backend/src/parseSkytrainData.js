@@ -1,6 +1,7 @@
 // import express from "express";
+import commute from "./commute.js";
 
-// export const router = express.Router();
+export const router = express.Router();
 
 const fs = require("fs");
 const path = require("path");
@@ -12,13 +13,23 @@ function loadSkytrainStations() {
   return parsed;
 }
 
-// router.get("/", (res) => {
-//   res.json(loadSkytrainStations());
-// });
+router.get("/", (res) => {
+  res.json(loadSkytrainStations());
+});
 
 const stations = loadSkytrainStations();
 
-// console.log("Loaded skytrain stations:", stations);
+function findDistance(station_x, station_y) {
+  const x = stations.find(station => station.name === station_x);
+  const y = stations.find(station => station.name === station_y);
+
+  if (x && y) {
+    return commute.computeDistance(x.lat, x.lng, y.lat, y.lng);
+  } else {
+    console.error("One or both stations not found");
+    return null;
+  }
+}
 
 module.exports = {
   getSkytrainStations: () => stations
