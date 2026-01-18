@@ -76,13 +76,14 @@ ul.output-page-plain-text {
 }
 
 .new-search-btn {
+  font-family: 'Noto Sans';
   background-color: #002d03;
   color: white;
   font-size: 24px;
   font-weight: 600;
   padding: 15px 40px;
   border: none;
-  border-radius: 30px;
+  border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
