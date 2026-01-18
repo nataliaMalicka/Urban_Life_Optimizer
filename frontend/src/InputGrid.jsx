@@ -1,5 +1,6 @@
 import "./InputGrid.css";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const inputConfig = [
   {
@@ -44,6 +45,7 @@ const inputConfig = [
 
 function InputGrid({ setGridPage, formData, setFormData }) {
   const [showErrors, setShowErrors] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (id, value) => {
     const fieldConfig = inputConfig.find((f) => f.id === id);
@@ -77,6 +79,10 @@ function InputGrid({ setGridPage, formData, setFormData }) {
 
     setShowErrors(false);
     setGridPage(current => current + 1); 
+  };
+
+  const handleGoHome = () => {
+    navigate("/WelcomePage");
   };
 
   return (
@@ -126,6 +132,9 @@ function InputGrid({ setGridPage, formData, setFormData }) {
       </div>
 
       <div className="actionContainer">
+        <button className="back-btn" onClick={handleGoHome}>
+          Home
+        </button>
         <button className="next-btn" onClick={handleNext}>
           Next
         </button>
