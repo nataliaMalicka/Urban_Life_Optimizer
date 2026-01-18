@@ -36,7 +36,7 @@ export default function OutputPage() {
   if (!result) return <div className="loading">Processing plan...</div>;
 
   const handleStartOver = () => {
-    navigate('/WelcomePage'); 
+    navigate('/InputPage'); 
   };
 
   return (

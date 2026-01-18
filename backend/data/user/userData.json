@@ -1,15 +1,15 @@
 {
-  "homePostalCode": "",
-  "officePostalCode": "",
-  "transportationMethod": "",
-  "commuteTime": "",
-  "maxCommuteTimeTolerance": "",
-  "daysOfWork": "",
-  "workHours": "",
-  "hasDog": "",
-  "hasChildren": "",
-  "roommatePreference": "",
-  "monthlyIncome": "",
-  "monthlyBudget": "",
-  "rentExpense": ""
+  "homePostalCode": "V4N",
+  "officePostalCode": "V6X",
+  "transportationMethod": "Transit",
+  "commuteTime": "90",
+  "maxCommuteTimeTolerance": "120",
+  "daysOfWork": "5",
+  "workHours": "8",
+  "hasDog": "No",
+  "hasChildren": "No",
+  "roommatePreference": "No",
+  "monthlyIncome": "5000",
+  "monthlyBudget": "4000",
+  "rentExpense": "2000"
 }

@@ -6,7 +6,7 @@
   width: 100vw;
   height: auto;
   overflow-y: auto;
-
+  overflow: visible;
   display: flex;
   justify-content: center;
 }
@@ -15,7 +15,7 @@
   display: grid;
   width: 1000px;
   grid-template-columns: repeat(2, 1fr); 
-  gap: 50px 200px;                        
+  gap: 50px 200px;               
 }
 
 .inputGroup {
