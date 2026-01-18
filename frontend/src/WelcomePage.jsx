@@ -12,16 +12,16 @@ export default function WelcomePage() {
 
   return (
     <>
-      <img src={Background} class='background-image' />
-      <div class='base'>
+      <img src={Background} className='background-image' />
+      <div className='base'>
         <div id='welcome-page-content'>
-          <h5 id='welcome-page-greeting' class='title-style'>
+          <h5 id='welcome-page-greeting' className='title-style'>
             Welcome to
           </h5>
-          <h3 id='welcome-page-title' class='title-style'>
+          <h3 id='welcome-page-title' className='title-style'>
             Urban Life Optimizer
           </h3>
-          <div class='horizontal-line' />
+          <div className='horizontal-line' />
           <div id='welcome-page-div-button' onClick={handleClick}>
             <p id='welcome-page-div-button-text'>Get Started</p>
             <img src={RightArrow} id='welcome-page-div-button-img' />

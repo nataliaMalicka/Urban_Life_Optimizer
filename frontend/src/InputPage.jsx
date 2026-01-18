@@ -12,18 +12,28 @@ function InputPage() {
   const [formData, setFormData] = useState({
     homePostalCode: "",
     officePostalCode: "",
-    transportaionMethod: "",
+    transportationMethod: "",
     commuteTime: "",
-    maxCommuteTimeTolerance: ""
+    maxCommuteTimeTolerance: "",
+
+    daysOfWork: "",
+    workHours: "",
+    hasDog: "",
+    hasChildren: "",
+    roommatePreference: "",
+
+    monthlyIncome: "",
+    monthlyBudget: "",
+    rentExpense: ""
   })
 
   return (
     <>
-      <img src={Background} class='background-image' />
+      <img src={Background} className='background-image' />
       <HeaderComponent />
-      {gridPage == 1 && <InputGrid setGridPage={setGridPage} />}
-      {gridPage == 2 && <InputGrid2 setGridPage={setGridPage} />}
-      {gridPage == 3 && <InputGrid3 setGridPage={setGridPage} />}
+      {gridPage == 1 && <InputGrid setGridPage={setGridPage} formData={formData} setFormData={setFormData} />}
+      {gridPage == 2 && <InputGrid2 setGridPage={setGridPage} formData={formData} setFormData={setFormData} />}
+      {gridPage == 3 && <InputGrid3 setGridPage={setGridPage} formData={formData} setFormData={setFormData} />}
     </>
   );
 }

@@ -1,70 +1,83 @@
+import { useNavigate } from "react-router-dom";
 import "./InputGrid.css";
 import { useState, useEffect } from "react";
 
 const inputConfig = [
-    {
-        id: "monthlyIncome",
-        label: "Monthly income",
-        type: "text",
-        placeholder: "Enter a number",
-    },
-    {
-        id: "monthlyBudget",
-        label: "Monthly budget",
-        type: "text",
-        placeholder: "Enter a number",
-    },
-    {
-        id: "rentExpense",
-        label: "Ideal monthly expense on rent",
-        type: "text",
-        placeholder: "Enter a number",
-    },
+	{
+		id: "monthlyIncome",
+		label: "Monthly income",
+		type: "text",
+		placeholder: "Enter a number",
+	},
+	{
+		id: "monthlyBudget",
+		label: "Monthly budget",
+		type: "text",
+		placeholder: "Enter a number",
+	},
+	{
+		id: "rentExpense",
+		label: "Ideal monthly expense on rent",
+		type: "text",
+		placeholder: "Enter a number",
+	},
 ];
 
-function InputGrid3({ formData, setFormData, setGridPage }) {
-    const [loading, setLoading] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const [response, setResponse] = useState("");
+function InputGrid3({ setGridPage, formData, setFormData }) {
+	const [showErrors, setShowErrors] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const [progress, setProgress] = useState(0);
+	const navigate = useNavigate();
 
-    useEffect(() => {
-        let interval;
-        if (loading) {
-            setProgress(0);
-            interval = setInterval(() => {
-                setProgress((prev) => {
-                    if (prev >= 90) return prev;
-                    return prev + 5;
-                });
-            }, 200);
-        } else {
-            setProgress(0);
-            clearInterval(interval);
-        }
-        return () => clearInterval(interval);
-    }, [loading]);
+	useEffect(() => {
+		let interval;
+		if (loading) {
+			setProgress(0);
+			interval = setInterval(() => {
+				setProgress((prev) => {
+					if (prev >= 90) return prev;
+					return prev + 5;
+				});
+			}, 200);
+		} else {
+			setProgress(0);
+			clearInterval(interval);
+		}
+		return () => clearInterval(interval);
+	}, [loading]);
 
-    const handleChange = (id, value) => {
-        setFormData((prev) => ({ ...prev, [id]: value }));
-    };
+	const handleChange = (id, value) => {
+		setFormData((prev) => ({ ...prev, [id]: value }));
+	};
 
-    const handleSubmit = async () => {
-        setLoading(true);
-        setResponse("");
-        try {
-            // Save data to JSON file
-            await fetch('http://localhost:3000/save-data', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
+	const handleNext = () => {
+    const requiredFields = inputConfig.filter(field => field.required);
+    const missingFields = requiredFields.filter(field => !formData[field.id]);
 
-            // Ask Gemini via backend
-            const res = await fetch('http://localhost:3000/ask', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    prompt: `You are an urban life optimizer for Vancouver, BC. Analyze this user's situation using the provided data and return a recommended lifestyle plan.
+    if (missingFields.length > 0) {
+      alert("Please fill in all required fields before continuing.");
+      return;
+  }
+
+    setShowErrors(false);
+    setGridPage(current => current + 1); 
+  };
+
+	const handleSubmit = async () => {
+		setLoading(true);
+		try {
+			await fetch('http://localhost:3000/save-data', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(formData),
+			});
+
+			// Ask Gemini via backend
+			const res = await fetch('http://localhost:3000/ask', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					prompt: `You are an urban life optimizer for Vancouver, BC. Analyze this user's situation using the provided data and return a recommended lifestyle plan.
 
 USE THE PROVIDED DATA:
 - rentData: Match postal codes to find neighborhoods, average/median rent, vacancy rates
@@ -97,78 +110,89 @@ ${formData.hasChildren?.toLowerCase() === 'yes' ? '- Schools: [List 2-3 specific
 3. [Specific actionable step]
 
 Be concise and specific. Use actual names, numbers, and addresses from the data.`,
-                    context: formData,
-                }),
-            });
+					context: formData,
+				}),
+			});
 
-            const data = await res.json();
-            setProgress(100);
-            setResponse(data.response);
-        } catch (error) {
-            console.error(error);
-            setResponse("An error occurred. Please try again.");
-        } finally {
-            setTimeout(() => setLoading(false), 500);
-        }
-    };
+			const data = await res.json();
+			setProgress(100);
+			navigate('/OutputPage', { state: data.response });
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setTimeout(() => setLoading(false), 500);
+		}
+	};
 
-    return (
-        <div>
-            <div className="inputContainer">
-                <div className="inputGrid">
-                    {inputConfig.map((field) => (
-                        <div key={field.id} className="inputGroup">
-                            <label className="inputLabel">{field.label}</label>
-                            <input
-                                type={field.type}
-                                placeholder={field.placeholder}
-                                value={formData[field.id] || ""}
-                                onChange={(e) => handleChange(field.id, e.target.value)}
-                            />
-                        </div>
-                    ))}
-                </div>
-            </div>
+	return (
+		<div>
+			<div className="inputContainer">
+				<h5 className="inputSubTitle">Work & Lifestyle</h5>
+				<div className="inputGrid">
+					{inputConfig.map((field) => (
+						<div key={field.id} className="inputGroup">
+							<label className="inputLabel">
+								{field.required && <span className="required">* </span>}
+								{field.label}
+							</label>
 
-            <div className="actionContainer">
-                <div className="buttonGroup">
-                    <button
-                        className="back-btn"
-                        onClick={() => setGridPage(2)}
-                        disabled={loading}
-                    >
-                        Back
-                    </button>
-                    <button
-                        className="submit-btn"
-                        onClick={handleSubmit}
-                        disabled={loading}
-                    >
-                        {loading ? "Thinking..." : "Get Recommendations"}
-                    </button>
-                </div>
+							{field.type === "select" ? (
+								<select
+									className="inputStyle"
+									value={formData[field.id]}
+									onChange={(e) => handleChange(field.id, e.target.value)}
+								>
+									<option value="" disabled>
+										Select an option
+									</option>
+									{field.options.map((option) => (
+										<option key={option} value={option}>
+											{option}
+										</option>
+									))}
+								</select>
+							) : (
+								<input
+									className="inputStyle"
+									type={field.type}
+									placeholder={field.placeholder}
+									value={formData[field.id]}
+									onChange={(e) => handleChange(field.id, e.target.value)} />
+							)}
+						</div>
+					))}
+				</div>
+				<div className="buttonGroup">
+					<button
+						className="back-btn"
+						onClick={() => setGridPage(2)}
+						disabled={loading}
+					>
+						Back
+					</button>
+					<button
+						className="submit-btn"
+						onClick={handleSubmit}
+						disabled={loading}
+					>
+						{loading ? "Thinking..." : "Get Recommendations"}
+					</button>
+				</div>
 
-                {loading && (
-                    <div className="progressWrapper">
-                        <div className="progressBarContainer">
-                            <div
-                                className="progressBarFill"
-                                style={{ width: `${progress}%` }}
-                            ></div>
-                        </div>
-                        <p className="loadingText">Analyzing your urban lifestyle...</p>
-                    </div>
-                )}
-
-                {response && !loading && (
-                    <div className="response fade-in">
-                        <h3>Recommendations:</h3>
-                        <p>{response}</p>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+				{loading && (
+					<div className="progressWrapper">
+						<div className="progressBarContainer">
+							<div
+								className="progressBarFill"
+								style={{ width: `${progress}%` }}
+							></div>
+						</div>
+						<p className="loadingText">Analyzing your urban lifestyle...</p>
+					</div>
+				)}
+			</div>
+		</div>
+	);
 }
 
 export default InputGrid3;

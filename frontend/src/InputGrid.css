@@ -1,6 +1,10 @@
 .inputContainer {
-  margin-top: 80px;
-  height: 350px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: auto;
   overflow-y: auto;
 
   display: flex;
@@ -9,6 +13,7 @@
 
 .inputGrid {
   display: grid;
+  width: 1000px;
   grid-template-columns: repeat(2, 1fr); 
   gap: 50px 200px;                        
 }
@@ -21,8 +26,14 @@
 }
 
 .inputLabel {
-  font-size: 20px;
+  font-size: 24px;
   color: white;
+  text-shadow: 2px 2px 2px rgb(50, 50, 50);
+}
+
+.inputStyle {
+  border-radius: 10px;
+  box-shadow: 2px 2px 3px rgb(50, 50, 50);;
 }
 
 .inputGroup input {
@@ -42,21 +53,27 @@
 }
 
 .submit-btn {
-  padding: 12px 24px;
+  color:  #002d03;
+  font-family: 'Noto Serif';
+  position: fixed;
+  bottom: 150px;
+  right: 300px;
+  padding: 24px 48px;
   cursor: pointer;
-  background-color: #002d03;
-  color: white;
-  border: none;
-  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 3px solid #002d03;
+  border-radius: 20px;
   font-weight: bold;
+  font-size: 20px;
 }
 
 .submit-btn:disabled {
-  background-color: #002d03;
+  background-color: rgba(150, 150, 150, 0.7);
   cursor: not-allowed;
 }
 
 .progressWrapper {
+  margin-top: 100px;
   width: 100%;
   max-width: 400px;
   text-align: center;
@@ -79,7 +96,8 @@
 
 .loadingText {
   font-size: 0.9rem;
-  color: #666;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 2px 2px rgb(50, 50, 50);
   font-style: italic;
 }
 
@@ -114,16 +132,35 @@
 }
 
 .next-btn {
-
+  font-family: 'Noto Serif';
+  position: fixed;
+  bottom: 150px;
+  right: 300px;
+  padding: 24px 48px;
+  cursor: pointer;
+  background-color: #002d03;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 
 .back-btn {
-  padding: 10px 20px;
-  background-color: #666;
+  font-family: 'Noto Serif';
+  position: fixed;
+  bottom: 150px;
+  left: 300px;
+
+  padding: 24px 48px;
+  cursor: pointer;
+  background-color: #002d03;
   color: white;
   border: none;
-  cursor: pointer;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .back-btn:hover {
