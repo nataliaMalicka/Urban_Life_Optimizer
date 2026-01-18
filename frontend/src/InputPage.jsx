@@ -11,10 +11,8 @@ function InputPage() {
   return (
     <>
       <img src={Background} class='background-image' />
-      <HeaderComponent/>
-      {gridPage == 1 && <InputGrid />}
-      {gridPage == 2 && <InputGrid2 />}
-      {gridPage == 3 && <InputGrid3 />}
+      <HeaderComponent />
+      <InputGrid2 setGridPage={setGridPage} />
     </>
   );
 }
