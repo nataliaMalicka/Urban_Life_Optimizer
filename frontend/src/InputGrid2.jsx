@@ -39,7 +39,7 @@ const inputConfig = [
   }
 ];
 
-function InputGrid(setGridPage) {
+function InputGrid({ setGridPage }) {
   const [formData, setFormData] = useState({});
   const [response, setResponse] = useState("");
 

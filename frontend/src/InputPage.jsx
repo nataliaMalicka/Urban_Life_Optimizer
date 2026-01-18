@@ -10,7 +10,7 @@ function InputPage() {
     <>
       <img src={Background} class='background-image' />
       <HeaderComponent />
-      <InputGrid />
+      <InputGrid2 setGridPage={setGridPage} />
     </>
   );
 }
