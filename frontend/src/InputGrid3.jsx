@@ -23,6 +23,7 @@ const inputConfig = [
 ];
 
 function InputGrid3({ setGridPage, formData, setFormData }) {
+	const [showErrors, setShowErrors] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const [response, setResponse] = useState("");
@@ -49,24 +50,22 @@ function InputGrid3({ setGridPage, formData, setFormData }) {
 	};
 
 	const handleNext = () => {
-  		const requiredFields = inputConfig.filter(field => field.required);
-  
-  		const missingFields = requiredFields.filter(field => !formData[field.id]);
+    const requiredFields = inputConfig.filter(field => field.required);
+    const missingFields = requiredFields.filter(field => !formData[field.id]);
 
-  		if (missingFields.length > 0) {
-    		alert("Please fill in all required fields before continuing.");
-   			return;
-  		}
+    if (missingFields.length > 0) {
+      alert("Please fill in all required fields before continuing.");
+      return;
+  }
 
-		setShowErrors(false);
-  		setGridPage(current => current + 1); 
-	};
+    setShowErrors(false);
+    setGridPage(current => current + 1); 
+  };
 
 	const handleSubmit = async () => {
 		setLoading(true);
 		setResponse("");
 		try {
-			// Save data to JSON file
 			await fetch('http://localhost:3000/save-data', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -127,81 +126,68 @@ Be concise and specific. Use actual names, numbers, and addresses from the data.
 	};
 
 	return (
-		<div>
-			<div className="inputContainer">
-				<h5 className="inputSubTitle">Work & Lifestyle</h5>
-				<div className="inputGrid">
-					{inputConfig.map((field) => (
-						<div key={field.id} className="inputGroup">
-							<label className="inputLabel">
-								{field.required && <span className="required">* </span>}
-								{field.label}
-							</label>
+        <div>
+            <div className="inputContainer">
+                <h5 className="inputSubTitle">Financials</h5>
+                <div className="inputGrid">
+                    {inputConfig.map((field) => {
+                        const fieldValue = formData[field.id] ? formData[field.id].toString().trim() : "";
+                        const isError = field.required && showErrors && fieldValue === "";
 
-							{field.type === "select" ? (
-								<select
-									className="inputStyle"
-									value={formData[field.id]}
-									onChange={(e) => handleChange(field.id, e.target.value)}
-								>
-									<option value="" disabled>
-										Select an option
-									</option>
-									{field.options.map((option) => (
-										<option key={option} value={option}>
-											{option}
-										</option>
-									))}
-								</select>
-							) : (
-								<input
-									className="inputStyle"
-									type={field.type}
-									placeholder={field.placeholder}
-									value={formData[field.id]}
-									onChange={(e) => handleChange(field.id, e.target.value)} />
-							)}
-						</div>
-					))}
-				</div>
-				<div className="buttonGroup">
-					<button
-						className="back-btn"
-						onClick={() => setGridPage(2)}
-						disabled={loading}
-					>
-						Back
-					</button>
-					<button
-						className="submit-btn"
-						onClick={handleSubmit}
-						disabled={loading}
-					>
-						{loading ? "Thinking..." : "Get Recommendations"}
-					</button>
-				</div>
+                        return (
+                            <div key={field.id} className="inputGroup">
+                                <label className="inputLabel">
+                                    {field.required && <span className="required">* </span>}
+                                    {field.label}
+                                </label>
+                                <input
+                                    className={`inputStyle ${isError ? "input-error" : ""}`}
+                                    type={field.type}
+                                    placeholder={field.placeholder}
+                                    value={formData[field.id] || ""}
+                                    onChange={(e) => handleChange(field.id, e.target.value)} 
+                                />
+                            </div>
+                        );
+                    })}
+                </div>
 
-				{loading && (
-					<div className="progressWrapper">
-						<div className="progressBarContainer">
-							<div
-								className="progressBarFill"
-								style={{ width: `${progress}%` }}
-							></div>
-						</div>
-						<p className="loadingText">Analyzing your urban lifestyle...</p>
-					</div>
-				)}
+                {loading && (
+                    <div className="progressWrapper">
+                        <div className="progressBarContainer">
+                            <div className="progressBarFill" style={{ width: `${progress}%` }}></div>
+                        </div>
+                        <p className="loadingText">Analyzing your urban lifestyle...</p>
+                    </div>
+                )}
 
-				{response && !loading && (
-					<div className="response fade-in">
-						<h3>Recommendations:</h3>
-						<p>{response}</p>
-					</div>
-				)}
-			</div>
-		</div>
-	);
+                {response && !loading && (
+                    <div className="response fade-in">
+                        <h3>Recommendations:</h3>
+                        <p style={{ whiteSpace: "pre-wrap" }}>{response}</p>
+                    </div>
+                )}
+            </div>
+
+            <div className="actionContainer">
+                <button
+                    className="back-btn"
+                    onClick={() => setGridPage(2)}
+                    disabled={loading}
+                >
+                    Back
+                </button>
+                
+                <button
+                    className="submit-btn"
+                    onClick={handleSubmit}
+                    disabled={loading}
+                >
+                    {loading ? "Thinking..." : "Get Recommendations"}
+                </button>
+            </div>
+        </div>
+    );
 }
 
 export default InputGrid3;

@@ -40,6 +40,7 @@ const inputConfig = [
 ];
 
 function InputGrid({ setGridPage, formData, setFormData }) {
+  const [showErrors, setShowErrors] = useState(false);
   const [response, setResponse] = useState("");
 
   const handleChange = (id, value) => {
@@ -48,73 +49,73 @@ function InputGrid({ setGridPage, formData, setFormData }) {
 
   const handleNext = () => {
     const requiredFields = inputConfig.filter(field => field.required);
-  
     const missingFields = requiredFields.filter(field => !formData[field.id]);
 
     if (missingFields.length > 0) {
       alert("Please fill in all required fields before continuing.");
       return;
-    }
+  }
 
     setShowErrors(false);
     setGridPage(current => current + 1); 
   };
   
   return (
+    <div>
       <div className="inputContainer">
         <h5 className="inputSubTitle">Work & Lifestyle</h5>
         <div className="inputGrid">
-          {inputConfig.map((field) => (
-            <div key={field.id} className="inputGroup">
-              <label className="inputLabel">
-                {field.required && <span className="required">* </span>}
-                {field.label}
-              </label>
+          {inputConfig.map((field) => {
+            // Logic to determine if this box should turn red
+            const fieldValue = formData[field.id] ? formData[field.id].toString().trim() : "";
+            const isError = field.required && showErrors && fieldValue === "";
 
-              {field.type === "select" ? (
-                <select
-                  className="inputStyle"
-                  value={formData[field.id]}
-                  onChange={(e) => handleChange(field.id, e.target.value)}
-                >
-                  <option value="" disabled>
-                    Select an option
-                  </option>
-                  {field.options.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
+            return (
+              <div key={field.id} className="inputGroup">
+                <label className="inputLabel">
+                  {field.required && <span className="required">* </span>}
+                  {field.label}
+                </label>
+
+                {field.type === "select" ? (
+                  <select
+                    className={`inputStyle ${isError ? "input-error" : ""}`}
+                    value={formData[field.id] || ""}
+                    onChange={(e) => handleChange(field.id, e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Select an option
                     </option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  type={field.type}
-                  className="inputStyle"
-                  placeholder={field.placeholder}
-                  value={formData[field.id]}
-                  onChange={(e) => handleChange(field.id, e.target.value)}
-                />
-              )}
-            </div>
-          ))}
+                    {field.options.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type={field.type}
+                    className={`inputStyle ${isError ? "input-error" : ""}`}
+                    placeholder={field.placeholder}
+                    value={formData[field.id] || ""}
+                    onChange={(e) => handleChange(field.id, e.target.value)}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
+      </div>
 
+      {/* Moved outside inputContainer to utilize corner positioning */}
       <div className="actionContainer">
-        <div className="buttonGroup" style={{ display: "flex", gap: "10px" }}>
-          <button 
-            className="back-btn" 
-            onClick={() => setGridPage(1)}
-          >
-            Back
-          </button>
+        <button className="back-btn" onClick={() => setGridPage(1)}>
+          Back
+        </button>
 
-          <button 
-            className="next-btn" 
-            onClick={() => setGridPage(3)} 
-          >
-            Next
-          </button>
-        </div>
+        <button className="next-btn" onClick={handleNext}>
+          Next
+        </button>
 
         {response && (
           <div className="response fade-in">
