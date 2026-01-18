@@ -29,7 +29,7 @@ const inputConfig = [
     id: "commuteTime",
     label: "Commute time",
     type: "text",
-    placeholder: "Enter a number",
+    placeholder: "Enter a number (minute)",
     required: true,
     numeric: true,
   },
@@ -37,7 +37,7 @@ const inputConfig = [
     id: "maxCommuteTimeTolerance",
     label: "Max commute time tolerance",
     type: "text",
-    placeholder: "Enter a number",
+    placeholder: "Enter a number (minute)",
     numeric: true,
   },
 ];
@@ -45,11 +45,25 @@ const inputConfig = [
 function InputGrid({ setGridPage, formData, setFormData }) {
   const [showErrors, setShowErrors] = useState(false);
 
-  const handleChange = (id, value, upperCase) => {
-    if (upperCase) {
-      value = value.toUpperCase();
+  const handleChange = (id, value) => {
+    const fieldConfig = inputConfig.find((f) => f.id === id);
+    let finalValue = value;
+
+    if (fieldConfig.numeric) {
+      finalValue = finalValue.replace(/\D/g, "");
+      if (finalValue.length > 1 && finalValue.startsWith("0")) {
+        finalValue = finalValue.replace(/^0+/, "");
+      }
+
+      finalValue = finalValue.slice(0, 3);
     }
-    setFormData((prev) => ({ ...prev, [id]: value}));
+
+    if (fieldConfig.upperCase) {
+      finalValue = finalValue.toUpperCase();
+      finalValue = finalValue.replace(/\s+/g, "");
+      finalValue = finalValue.slice(0, 6);
+    }
+    setFormData((prev) => ({ ...prev, [id]: finalValue}));
   };
 
   const handleNext = () => {
@@ -85,7 +99,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
                   <select
                     className={`inputStyle ${isError ? "input-error" : ""}`}
                     value={formData[field.id] || ""}
-                    onChange={(e) => handleChange(field.id, e.target.value, field.upperCase)}
+                    onChange={(e) => handleChange(field.id, e.target.value)}
                   >
                     <option value="" disabled>
                       Select an option
@@ -102,7 +116,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
                     type={field.type}
                     placeholder={field.placeholder}
                     value={formData[field.id] || ""}
-                    onChange={(e) => handleChange(field.id, e.target.value, field.upperCase)} 
+                    onChange={(e) => handleChange(field.id, e.target.value)} 
                   />
                 )}
               </div>
