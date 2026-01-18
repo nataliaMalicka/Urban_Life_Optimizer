@@ -1,5 +1,6 @@
 import "./InputGrid.css";
 import { useState } from "react";
+import { askGemini } from "./api";
 
 const inputConfig = [
   {
@@ -114,6 +115,8 @@ const inputConfig = [
 
 function InputGrid() {
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState("");
 
   const handleChange = (id, value) => {
     setFormData((prev) => ({
@@ -121,23 +124,37 @@ function InputGrid() {
       [id]: value,
     }));
   };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const result = await askGemini("Analyze this user's urban life situation and give recommendations", formData);
+      setResponse(result);
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false);
+  };
+
   return (
-    <div className="inputContainer">
-      <div className="inputGrid">
-        {inputConfig.map((field) => (
-          <div key={field.id} className="inputGroup">
-            <label className="inputLabel">{field.label}</label>
-            <input
-              type={field.type}
-              placeholder={field.placeholder}
-              min={field.min}
-              max={field.max}
-              onChange={(e) => handleChange(field.id, e.target.value)}
-            />
-          </div>
-        ))}
+      <div className="inputContainer">
+        <div className="inputGrid">
+          {inputConfig.map((field) => (
+              <div key={field.id} className="inputGroup">
+                <label className="inputLabel">{field.label}</label>
+                <input
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    onChange={(e) => handleChange(field.id, e.target.value)}
+                />
+              </div>
+          ))}
+        </div>
+        <button onClick={handleSubmit} disabled={loading}>
+          {loading ? "Loading..." : "Get Recommendations"}
+        </button>
+        {response && <div className="response">{response}</div>}
       </div>
-    </div>
   );
 }
 
