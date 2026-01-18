@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./InputGrid.css";
 import { useState, useEffect } from "react";
 
@@ -25,7 +26,7 @@ const inputConfig = [
 function InputGrid3({ setGridPage, formData, setFormData }) {
 	const [loading, setLoading] = useState(false);
 	const [progress, setProgress] = useState(0);
-	const [response, setResponse] = useState("");
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		let interval;
@@ -50,7 +51,6 @@ function InputGrid3({ setGridPage, formData, setFormData }) {
 
 	const handleSubmit = async () => {
 		setLoading(true);
-		setResponse("");
 		try {
 			// Save data to JSON file
 			await fetch('http://localhost:3000/save-data', {
@@ -103,10 +103,9 @@ Be concise and specific. Use actual names, numbers, and addresses from the data.
 
 			const data = await res.json();
 			setProgress(100);
-			setResponse(data.response);
+			navigate('/OutputPage', { state: data.response });
 		} catch (error) {
 			console.error(error);
-			setResponse("An error occurred. Please try again.");
 		} finally {
 			setTimeout(() => setLoading(false), 500);
 		}
@@ -176,13 +175,6 @@ Be concise and specific. Use actual names, numbers, and addresses from the data.
 							></div>
 						</div>
 						<p className="loadingText">Analyzing your urban lifestyle...</p>
-					</div>
-				)}
-
-				{response && !loading && (
-					<div className="response fade-in">
-						<h3>Recommendations:</h3>
-						<p>{response}</p>
 					</div>
 				)}
 			</div>
