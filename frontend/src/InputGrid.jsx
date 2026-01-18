@@ -8,6 +8,7 @@ const inputConfig = [
     type: "text",
     placeholder: "Enter a text",
     required: true,
+    upperCase: true,
   },
   {
     id: "officePostalCode",
@@ -15,6 +16,7 @@ const inputConfig = [
     type: "text",
     placeholder: "Enter a text",
     required: true,
+    upperCase: true,
   },
   {
     id: "transportationMethod",
@@ -29,20 +31,25 @@ const inputConfig = [
     type: "text",
     placeholder: "Enter a number",
     required: true,
+    numeric: true,
   },
   {
     id: "maxCommuteTimeTolerance",
     label: "Max commute time tolerance",
     type: "text",
     placeholder: "Enter a number",
+    numeric: true,
   },
 ];
 
 function InputGrid({ setGridPage, formData, setFormData }) {
   const [showErrors, setShowErrors] = useState(false);
 
-  const handleChange = (id, value) => {
-    setFormData((prev) => ({ ...prev, [id]: value }));
+  const handleChange = (id, value, upperCase) => {
+    if (upperCase) {
+      value = value.toUpperCase();
+    }
+    setFormData((prev) => ({ ...prev, [id]: value}));
   };
 
   const handleNext = () => {
@@ -78,7 +85,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
                   <select
                     className={`inputStyle ${isError ? "input-error" : ""}`}
                     value={formData[field.id] || ""}
-                    onChange={(e) => handleChange(field.id, e.target.value)}
+                    onChange={(e) => handleChange(field.id, e.target.value, field.upperCase)}
                   >
                     <option value="" disabled>
                       Select an option
@@ -95,7 +102,7 @@ function InputGrid({ setGridPage, formData, setFormData }) {
                     type={field.type}
                     placeholder={field.placeholder}
                     value={formData[field.id] || ""}
-                    onChange={(e) => handleChange(field.id, e.target.value)} 
+                    onChange={(e) => handleChange(field.id, e.target.value, field.upperCase)} 
                   />
                 )}
               </div>
