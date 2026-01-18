@@ -19,9 +19,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: 100vh;
+}
+
+#output-page-middle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   overflow-y: scroll;
   scrollbar-width: none;
-  max-height: 100vh;
+  height: auto;
+  margin-top: 50px;
 }
 
 #output-page-container {
@@ -29,12 +37,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  overflow-x: hidden;
-  overflow-y: scroll;
   scrollbar-width: none;
   width: 1100px;
-  height: auto;
-  margin-top: 60px;
   padding: 50px;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 50px;
