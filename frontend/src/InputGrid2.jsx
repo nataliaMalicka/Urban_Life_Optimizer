@@ -32,7 +32,7 @@ const inputConfig = [
   },
   {
     id: "roommatePreference",
-    label: "Do you have a preference for roommates?",
+    label: "Are you okay with having roommates?",
     type: "select",
     options: ["Yes", "No"],
     required: false,
