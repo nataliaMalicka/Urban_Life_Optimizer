@@ -1,6 +1,5 @@
 import "./InputGrid.css";
 import { useState } from "react";
-import { askGemini } from "./api";
 
 const inputConfig = [
   {
@@ -128,8 +127,25 @@ function InputGrid() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const result = await askGemini("Analyze this user's urban life situation and give recommendations", formData);
-      setResponse(result);
+      // Save data first
+      await fetch('http://localhost:3000/save-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      // Then ask Gemini
+      const res = await fetch('http://localhost:3000/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: "Analyze this user's urban life situation and give recommendations about neighbourhoods to move to " +
+              "decrease costs according to their budget, and decrease their commute time",
+          context: formData,
+        }),
+      });
+      const data = await res.json();
+      setResponse(data.response);
     } catch (error) {
       console.error(error);
     }
