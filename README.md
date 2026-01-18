@@ -52,3 +52,8 @@ I built the backend data pipeline that grounds LLM responses in real local data 
 - Visual output (maps, charts)
 - Expanded coverage beyond Vancouver
 - Replace manual mapping with geocoding/spatial joins
+
+<img width="3200" height="1632" alt="dataform" src="https://github.com/user-attachments/assets/92dd59da-d271-4c54-a8cd-51ab4773354b" />
+
+<img width="3200" height="1504" alt="output" src="https://github.com/user-attachments/assets/7c875070-1b03-4304-8dbd-31af5a16c83c" />
+note: zoom changed in the above image in order to screen capture more output for illustrative purposes, original is scrollable
