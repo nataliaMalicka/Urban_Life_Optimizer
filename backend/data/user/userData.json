@@ -1,15 +1,15 @@
 {
-  "homePostalCode": "444",
-  "officePostalCode": "4",
-  "transportationMethod": "Bike",
-  "commuteTime": "4",
-  "maxCommuteTimeTolerance": "",
-  "daysOfWork": "2",
+  "homePostalCode": "V4N",
+  "officePostalCode": "V6C",
+  "transportationMethod": "Transit",
+  "commuteTime": "100",
+  "maxCommuteTimeTolerance": "120",
+  "daysOfWork": "5",
   "workHours": "",
   "hasDog": "",
   "hasChildren": "",
   "roommatePreference": "",
-  "monthlyIncome": "",
-  "monthlyBudget": "",
-  "rentExpense": ""
+  "monthlyIncome": "5000",
+  "monthlyBudget": "4000",
+  "rentExpense": "2400"
 }
